@@ -8,3 +8,29 @@ overrides. Instead, idiomatic Rust achieves this using traits with default
 method implementations or closures.
 
 The template pattern helps define reusable algorithms with customizable steps.
+
+### Conceptual Diagram
+
+```
+       ┌───────────────────────────┐
+       │         «trait»           │
+       │          Game             │
+       ├───────────────────────────┤
+       │ + initialize(&self)       │
+       │ + start_play(&self)       │
+       │ + end_play(&self)         │
+       │ + play(&self) ────────────┼─► [Template Method]
+       └───────────────────────────┘
+                     ▲
+                     │
+                     ┊ (implements)
+                     │
+       ┌───────────────────────────┐
+       │          struct           │
+       │          Cricket          │
+       ├───────────────────────────┤
+       │ + initialize(&self)       │
+       │ + start_play(&self)       │
+       │ + end_play(&self)         │
+       └───────────────────────────┘
+```
