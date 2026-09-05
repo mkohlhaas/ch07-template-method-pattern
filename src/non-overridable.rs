@@ -47,14 +47,12 @@ impl<T: DataMinerSteps> DataMiner for T {
 
 // If a developer tries to break the design rules and write custom workflow logic for PdfMiner like this:
 
+// ⚠️ The Blanket Implementation is already an implementation of DataMiner for PdfMiner!
 // impl DataMiner for PdfMiner {
 //   fn mine(&self, _path: &str) {
 //     println!("I am trying to bypass the template!");
 //   }
 // }
-
-// NOTE: The Rust compiler will reject it immediately because the blanket implementation already claims
-// ownership over how DataMiner behaves for those types!!!
 
 // ============================================================ //
 // 4. Private extension trait to house the shared helper logic. //
@@ -65,7 +63,8 @@ trait InvariantSteps {
     fn close_file(&self, path: &str);
 }
 
-// This prevents concrete structs from seeing, calling, or overriding them.
+// This prevents concrete structs from seeing, calling, or overriding them
+// using the same trick as above.
 impl<T: DataMinerSteps> InvariantSteps for T {
     fn open_file(&self, path: &str) {
         println!("Opening file system handle for: {}", path);
@@ -80,6 +79,10 @@ impl<T: DataMinerSteps> InvariantSteps for T {
 // 5. Concrete Implementations //
 // =========================== //
 
+// -------- //
+// PdfMiner //
+// -------- //
+
 struct PdfMiner;
 impl DataMinerSteps for PdfMiner {
     fn extract_data(&self) {
@@ -90,6 +93,10 @@ impl DataMinerSteps for PdfMiner {
         println!("Parsing PDF byte stream into text.");
     }
 }
+
+// -------- //
+// CsvMiner //
+// -------- //
 
 struct CsvMiner;
 impl DataMinerSteps for CsvMiner {
