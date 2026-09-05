@@ -12,7 +12,7 @@ trait DataMinerSteps {
     fn extract_data(&self);
     fn parse_data(&self);
 
-    // Optional hook step
+    /// Optional hook step. Override to add custom logic; defaults to a no-op.
     fn hook(&self) {}
 }
 
