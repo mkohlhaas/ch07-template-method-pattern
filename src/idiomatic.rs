@@ -25,7 +25,7 @@ trait DataMiner {
     fn close_file(&self) {
         println!("Closing file handle.");
     }
-    /// Optional lifecycle hook. Override to add custom logic; defaults to a no-op.
+    // Optional lifecycle hook. Override to add custom logic; defaults to a no-op.
     fn hook(&self) {}
 
     // -------------------------------------------------------- //
@@ -85,4 +85,37 @@ fn main() {
 
     let csv = CsvMiner;
     csv.mine("data.csv");
+}
+
+// ===== //
+// Tests //
+// ===== //
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn pdf_miner_executes_all_steps() {
+        let pdf = PdfMiner;
+        pdf.mine("test.pdf");
+    }
+
+    #[test]
+    fn csv_miner_executes_all_steps() {
+        let csv = CsvMiner;
+        csv.mine("test.csv");
+    }
+
+    #[test]
+    fn csv_miner_hook_runs() {
+        let csv = CsvMiner;
+        csv.hook();
+    }
+
+    #[test]
+    fn default_hook_is_noop() {
+        let pdf = PdfMiner;
+        pdf.hook();
+    }
 }
